@@ -137,7 +137,10 @@ export default pool;
 *** 이후에 수정된 코드 push할때
     git add .
     git commit -m "Feat: 수정내용"
-    git push
+    git push origin main
+
+*** 컴퓨터 바꿔서 작업할 때는 pull 한 후에 작업할것. 작업을 마친 후에는 바로 위의 내용으로 반드시 push 할것
+    git pull origin main
 
 4. 프로젝트 진행하기
 (1) 프로젝트에 필요한 기능들을 정의(기획)하고 데이터 구조 설계
