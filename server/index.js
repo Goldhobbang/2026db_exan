@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';                // 파일 및 폴더 경로를 안전하게 조작하는 Node.js 내장 모듈
 import { fileURLToPath } from 'url';    // URL 형식의 경로를 OS(윈도우, 리눅스, 맥)에 맞는 일반 파일 경로 형식으로 바꿔주는 함수
+import usersRouter from './routes/users.js';
+import productsRouter from './routes/products.js';
 
 const __filename = fileURLToPath(import.meta.url);  // 현재 실행 중인 파일의 URL 경로를 가져와서 실제 운영체제에서 사용하는 절대 경로로 변환함
 const __dirname = path.dirname(__filename);         // 전체 파일 경로에서 파일 이름을 떼어내고, 파일이 속한 폴더(디렉터리)의 절대 경로만 추출하여 __dirname 변수에 저장
@@ -22,6 +24,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));   // 업�
 app.get('/', (req, res) => {
   res.send('Backend Server is running...');
 });
+
+// 라우터 등록
+app.use('/api/users', usersRouter);     // /api/users/login, /api/users/signup
+app.use('/api/products', productsRouter); // /api/products, /api/products/:id
 
 // 서버 실행
 app.listen(PORT, () => {
