@@ -1,0 +1,115 @@
+1. 프로젝트 이름으로 폴더 생성한 후에 VSC에서 열기
+
+2. client(프론트엔드) 코드는 React로 작성
+(1) npm create vite@latest
+    프로젝트명 : client
+    React -> Javascript -> ESlint -> Yes 선택
+(2) client 폴더가 생성되면 cd client 이동하여 package.json에 다음 내용 추가하기
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.20.0", 
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^7.18.4",
+    "styled-components": "^6.5.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "eslint": "^10.13.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.13.0",
+    "vite": "^8.3.5"
+  }
+(3) "dependencies"에 있는 라이브러리 설치하기 : client>npm install 
+(4) "devDependencies"에 있는 라이브러리 설치하기 : client>npm install -D
+(5) vite.config.js에서 프록시 서버 설정하기
+server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',   
+        changeOrigin: true,                
+      },
+    },
+  }
+(6) main.jsx에서 <App />을 <BrowserRouter> 컴포넌트로 감싸주기
+(7) Layout.jsx 작성하기
+(8) index.css는 초기화 css 내용으로 수정하기
+(9) App.jsx 에서 페이지 라우터 설정하기
+(10) src 폴더 안에 components 폴더 생성하기
+(11) src 폴더 안에 pages 폴더 생성하기
+(12) 디자인 이미지는 public 폴더에 images 폴더 만들어서 저장할 것
+
+3. server(백엔드) 코드는 Node.js+Express로 작성
+(0) mkdir server
+(1) cd server 로 이동하여 package.json 파일 생성하기 : npm  init  -y
+
+(2) package.json 라이브러리 추가
+"dependencies": {
+    "bcrypt": "^6.0.0",         
+    "cors": "^2.8.6",           
+    "dotenv": "^18.0.7",      
+    "express": "^5.3.0",       
+    "jsonwebtoken": "^9.0.3",   
+    "multer": "^2.5.0",         
+    "mysql2": "^3.24.5"       
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"        
+  }
+
+(3) 라이브러리 설치하기 
+    "dependencies" : server> npm install
+    "devDependencies" : server> npm install -D
+
+(4) index.js 파일 작성 : Express 백엔드 서버의 메인 진입점 코드 작성
+
+(5) .env 파일 작성
+PORT=5000
+DB_HOST=127.0.0.1
+DB_USER=DB사용자명(학번으로 했음)
+DB_PASSWORD=DB비밀번호(각자 설정했음)
+DB_NAME=프로젝트명_학번(반드시 _학번으로 끝나야 함)
+DB_PORT=3306
+JWT_SECRET=super_secret_jwt_key_2026
+
+(6) db.js 파일 작성  
+import mysql from 'mysql2/promise';   //
+import dotenv from 'dotenv';             // 
+
+dotenv.config();  //
+
+const pool = mysql.createPool({   //
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+  waitForConnections: true,         // 
+  connectionLimit: 10,              // 
+  queueLimit: 0                     // 
+});
+
+try {
+  const connection = await pool.getConnection();
+  console.log('✅ MySQL 데이터베이스 연결 성공!');
+  connection.release();         // 
+} catch (error) {
+  console.error('❌ MySQL 데이터베이스 연결 실패:', error.message);
+}
+
+export default pool;
+
+(7) routes 폴더 생성하기
+
+
