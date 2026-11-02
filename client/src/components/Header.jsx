@@ -51,6 +51,13 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
       <NavGroup>
         <WriteButton onClick={handleWriteClick}>+ 글쓰기</WriteButton>
 
+        {!isLoggedIn && (
+          <>
+            <LoginButton onClick={() => navigate('/login')}>로그인</LoginButton>
+            <SignupButton onClick={() => navigate('/signup')}>회원가입</SignupButton>
+          </>
+        )}
+
         {isLoggedIn && (
           <DropdownContainer ref={dropdownRef}>
             <MyPageButton onClick={() => setIsDropdownOpen((prev) => !prev)}>
@@ -117,6 +124,34 @@ const WriteButton = styled.button`
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+`;
+
+const LoginButton = styled.button`
+  background: none;
+  border: none;
+  color: #495057;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    color: #FF6F0F;
+  }
+`;
+
+const SignupButton = styled.button`
+  background-color: #fff;
+  color: #FF6F0F;
+  border: 1px solid #FF6F0F;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fff4ec;
+  }
 `;
 
 /* 💡 드롭다운 스타일 정의 */
