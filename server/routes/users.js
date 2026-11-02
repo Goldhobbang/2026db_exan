@@ -92,32 +92,25 @@ router.post('/login', async (req, res) => {
 });
 
 
-// 💡 1. 내 프로필 정보 조회 (GET /api/users/me)
+// 💡 authenticateToken 미들웨어 적용
 router.get('/me', authenticateToken, async (req, res) => {
   try {
-    // req.user 객체에 id가 정상적으로 들어있는지 확인
-    const userId = req.user.id || req.user.userId;
+    // req.user에는 토큰 생성 시 넣었던 정보(예: { id: 1, email: '...' })가 들어있습니다.
+    const userId = req.user.id; 
 
-    if (!userId) {
-      return res.status(400).json({ message: '토큰에서 사용자 ID를 찾을 수 없습니다.' });
-    }
-
-    // DB 조회를 실행합니다.
-    const [rows] = await pool.query(
-      'SELECT email, nickname, phone_number, entry_year, student_id FROM users WHERE id = ?',
+    const [users] = await db.query(
+      'SELECT id, email, nickname, phone_number, entry_year, student_id, password FROM users WHERE id = ?',
       [userId]
     );
 
-    if (rows.length === 0) {
+    if (users.length === 0) {
       return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
     }
 
-    // 정상적으로 프로필 데이터 응답
-    res.json(rows[0]);
+    res.json(users[0]);
   } catch (error) {
-    // 💡 500 에러의 원인을 백엔드 터미널 콘솔에 출력!
-    console.error('GET /api/users/me 500 에러 원인:', error);
-    res.status(500).json({ message: '서버 내부 오류가 발생했습니다.', error: error.message });
+    console.error('GET /me 에러:', error);
+    res.status(500).json({ message: '프로필 정보 조회 실패' });
   }
 });
 
