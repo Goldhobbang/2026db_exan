@@ -30,10 +30,18 @@ const LoginPage = () => {
         alert('로그인되었습니다.');
         navigate(redirectTo);
       } else {
-        alert(data.message || '로그인 실패');
+        // 💡 1. 백엔드 응답 메시지에 '등록' 또는 '존재하지' 않는 회원이라는 문구가 포함되어 있거나 
+        // 💡 2. 특정 status(예: 404)일 때 회원가입 페이지로 이동 처리
+        if (response.status === 404 || data.message?.includes('등록') || data.message?.includes('존재')) {
+          alert('등록된 회원이 없습니다. 회원가입 페이지로 이동합니다.');
+          navigate('/signup'); // 👈 회원가입 라우트 경로로 이동
+        } else {
+          alert(data.message || '로그인 실패');
+        }
       }
     } catch (error) {
       console.error('로그인 에러:', error);
+      alert('서버 통신 중 에러가 발생했습니다.');
     }
   };
 
