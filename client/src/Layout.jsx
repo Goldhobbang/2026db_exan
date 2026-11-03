@@ -1,36 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './components/Header';
-import Footer from './components/Footer';
-
 const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
-  return (
-    <PageWrapper>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <MainContent>
-        {/* 💡 context를 통해 하위 컴포넌트로 setIsLoggedIn 전달 */}
-        <Outlet context={{ setIsLoggedIn }} />
-      </MainContent>
-      <Footer />
-    </PageWrapper>
-  );
+  const nav = useNavigate();
+  const logout = () => { localStorage.removeItem('token'); setIsLoggedIn(false); nav('/'); };
+  return (<Wrap><Header><Logo onClick={() => nav('/')}>동아리모집</Logo><Nav>{isLoggedIn ? (<><Link to="/write">공고등록</Link><Link to="/mypage/clubs">내 공고</Link><Link to="/mypage/applications">내 지원</Link><Link to="/mypage/edit">프로필</Link><button onClick={logout}>로그아웃</button></>) : (<><Link to="/login">로그인</Link><Link to="/signup">회원가입</Link></>)}</Nav></Header><Main><Outlet context={{ setIsLoggedIn }} /></Main></Wrap>);
 };
-
 export default Layout;
-
-// 🎨 styled-components 스타일 정의
-const PageWrapper = styled.div`
-  max-width: 600px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* 모바일 뷰 구분용 연한 그림자 */
-`;
-
-const MainContent = styled.main`
-  flex: 1; /* 콘텐츠 영역이 남은 높이를 채워 푸터가 하단에 붙도록 함 */
-  display: flex;
-  flex-direction: column;
-`;
+const Wrap = styled.div`max-width: 640px; margin: 0 auto;`;
+const Header = styled.header`display: flex; justify-content: space-between; padding: 16px; border-bottom: 1px solid #eee;`;
+const Logo = styled.h1`font-size: 20px; color: #6741d9; cursor: pointer; margin: 0;`;
+const Nav = styled.nav`display: flex; gap: 12px; align-items: center;`;
+const Main = styled.main`padding: 16px;`;
