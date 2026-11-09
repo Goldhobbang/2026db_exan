@@ -1,5 +1,5 @@
 ﻿# 동아리 모집 (club-recruit)
-school_market 구조 참고, 주제는 동아리 모집+지원으로 새로 작성.
+동아리 모집 공고를 등록하고 지원할 수 있는 웹 앱입니다.
 - client: Vite+React (5173)
 - server: Express API (5001)
 - DB: MySQL `club_recruit_20512` (schema: server/database/schema.sql)
