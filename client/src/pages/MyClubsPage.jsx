@@ -9,6 +9,6 @@ const MyClubsPage = () => {
     if (!token) { alert('로그인 필요'); nav('/login'); return; }
     fetch('/api/clubs/mine/list', { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json()).then((d) => setRows(Array.isArray(d) ? d : [])).catch(() => {});
   }, [nav]);
-  return (<div><h2>내 공고 (JOIN: 개설자+지원자수)</h2>{rows.map((c) => (<div key={c.id} style={{ border: '1px solid #eee', padding: 12, marginBottom: 8 }}><b style={{ cursor: 'pointer' }} onClick={() => nav(`/club/${c.id}`)}>{c.name}</b><p>대기 {c.pending_count} · 승인 {c.approved_count} · {c.status}</p></div>))}</div>);
+  return (<div><h2>내 공고 (JOIN: 개설자+지원자수)</h2>{rows.length === 0 && <p style={{ color: '#868e96' }}>등록한 공고가 없습니다.</p>}{rows.map((c) => (<div key={c.id} style={{ background: '#fff', border: '1px solid #eee', borderRadius: 10, padding: 14, marginBottom: 8 }}><b style={{ cursor: 'pointer' }} onClick={() => nav(`/club/${c.id}`)}>{c.name}</b><p>대기 {c.pending_count} · 승인 {c.approved_count} · {c.status === 'RECRUITING' ? '모집중' : '마감'}</p><button onClick={() => nav(`/club/${c.id}/applicants`)}>지원서 보기</button></div>))}</div>);
 };
 export default MyClubsPage;

@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage'
 import ClubCreatePage from './pages/ClubCreatePage'
 import ClubDetailPage from './pages/ClubDetailPage'
 import ClubEditPage from './pages/ClubEditPage'
+import ClubApplicantsPage from './pages/ClubApplicantsPage'
 import MyClubsPage from './pages/MyClubsPage'
 import MyApplicationsPage from './pages/MyApplicationsPage'
 import ProfileEditPage from './pages/ProfileEditPage'
@@ -19,6 +20,7 @@ const App = () => {
     <Route path="/write" element={<ClubCreatePage />} />
     <Route path="/club/:id" element={<ClubDetailPage />} />
     <Route path="/club/:id/edit" element={<ClubEditPage />} />
+    <Route path="/club/:id/applicants" element={<ClubApplicantsPage />} />
     <Route path="/mypage/clubs" element={<MyClubsPage />} />
     <Route path="/mypage/applications" element={<MyApplicationsPage />} />
     <Route path="/mypage/edit" element={<ProfileEditPage setIsLoggedIn={setIsLoggedIn} />} />

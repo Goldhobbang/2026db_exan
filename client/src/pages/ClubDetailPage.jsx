@@ -21,8 +21,8 @@ const ClubDetailPage = () => {
     if (res.ok) { alert('삭제 완료'); nav('/'); } else alert(d.message || '실패');
   };
   if (!c) return <p>불러오는 중...</p>;
-  return (<div><h2>{c.name}</h2><p>{c.category} · {c.owner_nickname} · {c.location} · {c.status}</p><p>{c.description}</p>
-    <input value={motive} onChange={(e) => setMotive(e.target.value)} placeholder="지원 동기" style={{ width: '100%', padding: 8 }} />
-    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}><button onClick={apply}>지원하기</button><button onClick={() => nav(`/club/${id}/edit`)}>수정</button><button onClick={remove}>삭제</button></div></div>);
+  return (<div><h2>{c.name}</h2><p style={{ color: '#868e96' }}>{c.category} · {c.owner_nickname} · {c.location} · {c.status === 'RECRUITING' ? '모집중' : '마감'}</p><p>{c.description}</p>
+    <input value={motive} onChange={(e) => setMotive(e.target.value)} placeholder="지원 동기" style={{ marginTop: 8 }} />
+    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}><button onClick={apply}>지원하기</button><button onClick={() => nav(`/club/${id}/applicants`)}>지원서 보기</button><button onClick={() => nav(`/club/${id}/edit`)}>수정</button><button onClick={remove}>삭제</button></div></div>);
 };
 export default ClubDetailPage;
